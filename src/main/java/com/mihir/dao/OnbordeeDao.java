@@ -178,7 +178,7 @@ public class OnbordeeDao
 	   l.setClassname("OnbordeeDao");
 	   l.setDatetime(LocalDateTime.now());
 	   
-	   sessionFactory.getCurrentSession().save(l);   
+	   sessionFactory.getCurrentSession().save(l); 
 	   
    }
    
