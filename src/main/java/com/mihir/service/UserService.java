@@ -18,10 +18,16 @@ public class UserService
 	   private UserDao userDao;
 		
 		
-			
+		@Transactional
 		   public JSONObject check_user_credential(User u)
 		   {
+			   log("info","Credentials checked for id"+ u.getId());
 			   return userDao.check_user_credential(u);
+		   }
+		   
+		   @Transactional
+		   public void log(String level,String message) {
+		      userDao.log(level,message);
 		   }
 
 //	   @Transactional

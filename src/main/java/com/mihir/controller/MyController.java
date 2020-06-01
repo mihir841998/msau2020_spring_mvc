@@ -74,6 +74,24 @@ public class MyController
       return ResponseEntity.ok().body(skill);
    }
    
+   @GetMapping("/trendlocation")
+   public ResponseEntity<List<JSONObject>> get_trend_location() {
+      List<JSONObject> skill = onbordeeService.get_trend_location();
+      return ResponseEntity.ok().body(skill);
+   }
+   
+   @GetMapping("/trenddemandid")
+   public ResponseEntity<List<JSONObject>> get_trend_demandid() {
+      List<JSONObject> skill = onbordeeService.get_trend_demandid();
+      return ResponseEntity.ok().body(skill);
+   }
+   
+   @GetMapping("/trendhmid")
+   public ResponseEntity<List<JSONObject>> get_trend_hmid() {
+      List<JSONObject> skill = onbordeeService.get_trend_hmid();
+      return ResponseEntity.ok().body(skill);
+   }
+   
    
    
    

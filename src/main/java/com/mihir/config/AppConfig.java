@@ -19,13 +19,15 @@ import static org.hibernate.cfg.Environment.*;
 @EnableTransactionManagement
 @ComponentScans(value = { @ComponentScan("com.mihir.dao"),
  @ComponentScan("com.mihir.service") })
-public class AppConfig {
+public class AppConfig 
+{
 
    @Autowired
    private Environment env;
 
    @Bean
    public LocalSessionFactoryBean getSessionFactory() {
+//	   java.util.logging.Logger.getLogger("org.hibernate").setLevel("OFF");
       LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
 
       Properties props = new Properties();

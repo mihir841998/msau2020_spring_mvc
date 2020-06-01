@@ -3,6 +3,8 @@ package com.mihir.dao;
 import org.springframework.stereotype.Repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -16,7 +18,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
+import com.mihir.model.Logs;
 import com.mihir.model.User;
 
 @Repository
@@ -24,7 +26,7 @@ public class UserDao
 {
 	@Autowired
 	private SessionFactory sessionFactory;
-	private static final Logger logger = LogManager.getLogger(UserDao.class);
+//	private static final Logger logger = LogManager.getLogger(UserDao.class);
 	public JSONObject check_user_credential(User u)
 	{
 		String password = u.getPassword();
@@ -48,6 +50,18 @@ public class UserDao
 		      return obj;
 		}
 	}
+	
+	public void log(String level,String message)
+	   {
+		   Logs l = new Logs();
+		   l.setLevel(level);
+		   l.setMessage(message);
+		   l.setClassname("OnbordeeDao");
+		   l.setDatetime(LocalDateTime.now());
+		   
+		   sessionFactory.getCurrentSession().save(l);   
+		   
+	   }
 	
 
 
