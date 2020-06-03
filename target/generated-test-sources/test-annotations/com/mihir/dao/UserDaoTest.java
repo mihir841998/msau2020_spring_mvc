@@ -66,6 +66,7 @@ public class UserDaoTest
 		JSONObject json = new JSONObject();
 		json.put("result", "success");
 		json.put("access", "1");
+		json.put("name", "mihir");
 		JSONObject json_actual = userDao.check_user_credential(u);
 		assertEquals(json, json_actual);
 		json.clear();
@@ -76,8 +77,25 @@ public class UserDaoTest
 	}
 
 //	@Test
-//	public void testLog() {
-//		fail("Not yet implemented");
+//	public void get_access_by_email_test() 
+//	{
+//		List<Object[]>list=new ArrayList<Object[]>();
+//		Object[] obj = {"mihir","2"};
+//		list.add(obj);
+//		when(sessionFactory.getCurrentSession()).thenReturn(session);
+//		when(session.createQuery("select u.name,u.access from User as u where u.email= :email").setParameter("email", "mihirjayesh.maniar@accoliteindia.com")).thenReturn(query);
+//		when(query.list()).thenReturn(list);
+//		JSONObject expected = new JSONObject();
+//	     expected.put("name","mihir");
+//	     expected.put("access","2");
+//	     User user = new User();
+//	     user.setEmail("mihirjayesh.maniar@accoliteindia.com");
+//	     user.setId(1L);
+//	     user.setName("mihir");
+//	     user.setAccess("access");
+//	     user.setPassword("mihir");
+//	     JSONObject actual = userDao.get_access_for_email(user);
+//	     assertEquals(expected, actual);		
 //	}
 
 }

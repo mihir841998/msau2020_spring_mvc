@@ -36,6 +36,12 @@ public class MyController
       JSONObject obj = userService.check_user_credential(user);
       return ResponseEntity.ok().body(obj);
    }
+   @PostMapping("/getaccess")
+   public ResponseEntity<JSONObject> get_access_for_email(@RequestBody User user)
+   {
+      JSONObject obj = userService.get_access_for_email(user);
+      return ResponseEntity.ok().body(obj);
+   }
    
    @GetMapping("/onbordee")
    public ResponseEntity<List<Onbordee>> list() {

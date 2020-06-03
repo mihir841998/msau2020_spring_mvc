@@ -45,10 +45,22 @@ public class UserDao
 		{
 			JSONObject obj = new JSONObject();
 		      obj.put("result", "success");
-		      obj.put("access", user.getAccess());	
+		      obj.put("access", user.getAccess());
+		      obj.put("name", user.getName());
 //		      logger.info("Authentication success for user with ID"+u.getId());
 		      return obj;
 		}
+	}
+	
+	public JSONObject get_access_for_email(User u)
+	{
+		List<Object[]> ulist =(List<Object[]>) sessionFactory.getCurrentSession().createQuery("select u.name,"
+				+ "u.access from User as u where u.email= :email").setParameter("email", u.getEmail()).list();
+		Object[] o = ulist.get(0);
+		JSONObject obj = new JSONObject();
+	      obj.put("name",o[0]);
+	      obj.put("access",o[1]);
+	      return obj;
 	}
 	
 	public void log(String level,String message)

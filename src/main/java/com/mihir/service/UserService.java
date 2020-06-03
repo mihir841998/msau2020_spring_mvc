@@ -24,11 +24,21 @@ public class UserService
 			   log("info","Credentials checked for id"+ u.getId());
 			   return userDao.check_user_credential(u);
 		   }
+		
+		@Transactional
+		   public JSONObject get_access_for_email(User u)
+		   {
+			   log("info","Access of  emailId"+ u.getEmail() + "fetched from database");
+			   return userDao.get_access_for_email(u);
+		   }
 		   
 		   @Transactional
 		   public void log(String level,String message) {
 		      userDao.log(level,message);
 		   }
+		   
+		   
+		   
 
 //	   @Transactional
 //	   public long save(User book) {
