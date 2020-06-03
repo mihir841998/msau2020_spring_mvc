@@ -44,9 +44,21 @@ public class UserServiceTest extends TestCase
 			
 		
 	}
-
-//	public void testLog() {
-//		fail("Not yet implemented");
-//	}
+	  @Test
+	public void get_access_by_email() 
+	  {
+		  JSONObject obj = new JSONObject();
+		  obj.put("name","mihir");
+		  obj.put("access", "2");
+		  User u = new User();
+		  u.setEmail("mihir@gmail.com");
+		  when(userDao.get_access_for_email(u)).thenReturn(obj);
+		  JSONObject expected = new JSONObject();
+		  expected.put("name","mihir");
+		  expected.put("access", "2");
+		  JSONObject actual = userService.get_access_for_email(u);
+		  assertEquals(expected, actual);
+		  
+	}
 
 }
