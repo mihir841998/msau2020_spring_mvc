@@ -67,6 +67,7 @@ public class UserDaoTest
 		json.put("result", "success");
 		json.put("access", "1");
 		json.put("name", "mihir");
+		json.put("id", 1L);
 		JSONObject json_actual = userDao.check_user_credential(u);
 		assertEquals(json, json_actual);
 		json.clear();
@@ -74,6 +75,26 @@ public class UserDaoTest
 		json.put("access", "-1");
 		json_actual = userDao.check_user_credential(u2);
 		assertEquals(json, json_actual);
+	}
+	
+	@Test
+	public void get_log_by_id_test()
+	{
+		String q = "select l.datetime,l.message from Logs as l where message like \'%" + 5323 + "%\'";
+		List<JSONObject> l = new ArrayList<JSONObject>();
+		JSONObject obj = new JSONObject();
+	      obj.put("datetime","5 August 2020");
+	      obj.put("operation","deleted");
+	      l.add(obj);
+	      List<Object[]> objlist = new ArrayList<Object[]>();
+	      Object object[] = {"5 August 2020","deleted"};
+	      objlist.add(object);
+	      when(sessionFactory.getCurrentSession()).thenReturn(session);
+	      when(session.createQuery(q)).thenReturn(query);
+	      when(query.list()).thenReturn(objlist);
+	      List<JSONObject> actual = userDao.get_log_by_id(5323L);
+	      assertEquals(l, actual);	
+		
 	}
 
 	

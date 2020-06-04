@@ -49,7 +49,7 @@ public class OnbordeeServiceTest extends TestCase {
 		o.setUserid(1);
 		onbordee.add(o);
 		when(onbordeeDao.list()).thenReturn(onbordee);
-		List<Onbordee> o_list = onbordeeService.list();		
+		List<Onbordee> o_list = onbordeeService.list(1L);		
 		assertEquals(o,o_list.get(0));
 	}
 
@@ -111,7 +111,7 @@ public class OnbordeeServiceTest extends TestCase {
 		o.setStart_date("5 August");
 		o.setUserid(1);
 		when(onbordeeDao.save(o)).thenReturn("Onbordee saved with USER ID 1");
-		String s = onbordeeService.save(o);
+		String s = onbordeeService.save(o,1L);
 		assertEquals("Onbordee saved with USER ID 1", s);
 		
 	}

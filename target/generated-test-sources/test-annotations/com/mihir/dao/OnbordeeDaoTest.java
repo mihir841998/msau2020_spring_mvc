@@ -90,7 +90,7 @@ public class OnbordeeDaoTest
 		when(sessionFactory.getCurrentSession()).thenReturn(session);
 		when(session.byId(Onbordee.class)).thenReturn(identifierObj);
 		when(identifierObj.load(1)).thenReturn(o);
-		String s = onbordeeDao.delete(1);
+		String s = onbordeeDao.delete(1,1);
 		assertEquals("Onbordee Deleted Successfully", s);
 				
 	}
@@ -128,7 +128,7 @@ public class OnbordeeDaoTest
 		o1.setStart_date("5 August");
 		o1.setUserid(1);
 		
-		String s =onbordeeDao.update(1L, o1);
+		String s =onbordeeDao.update(1L,1, o1);
 		assertEquals("Onbordee Updated Successfully", s);
 		
 	}

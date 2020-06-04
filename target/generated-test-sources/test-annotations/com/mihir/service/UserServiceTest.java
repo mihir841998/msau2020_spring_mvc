@@ -2,6 +2,9 @@ package com.mihir.service;
 
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.simple.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,5 +63,18 @@ public class UserServiceTest extends TestCase
 		  assertEquals(expected, actual);
 		  
 	}
+	  
+	  @Test
+	  public void get_log_by_id_test()
+	  {
+		  JSONObject obj = new JSONObject();
+		  obj.put("datetime", "5 August 2020");
+		  obj.put("message", "deleteg user");
+		  List<JSONObject> list = new ArrayList<JSONObject>();
+		  list.add(obj);
+		  when(userDao.get_log_by_id(1L)).thenReturn(list);
+		  List<JSONObject> list_actual = userService.get_log_by_id(1L);
+		  assertEquals(list, list_actual);
+	  }
 
 }
