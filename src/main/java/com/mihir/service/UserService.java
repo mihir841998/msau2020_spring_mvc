@@ -21,7 +21,7 @@ public class UserService
 		@Transactional
 		   public JSONObject check_user_credential(User u)
 		   {
-			   log("info","Credentials checked for id"+ u.getId());
+			   log("info","User with Id "+ u.getId()+" logged in to the system");
 			   return userDao.check_user_credential(u);
 		   }
 		
@@ -31,6 +31,11 @@ public class UserService
 			   log("info","Access of  emailId"+ u.getEmail() + "fetched from database");
 			   return userDao.get_access_for_email(u);
 		   }
+		
+		public List<JSONObject> get_log_by_id(Long id)
+		{
+			return userDao.get_log_by_id(id);
+		}
 		   
 		   @Transactional
 		   public void log(String level,String message) {

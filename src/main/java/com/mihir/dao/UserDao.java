@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -47,6 +48,7 @@ public class UserDao
 		      obj.put("result", "success");
 		      obj.put("access", user.getAccess());
 		      obj.put("name", user.getName());
+		      obj.put("id",user.getId());
 //		      logger.info("Authentication success for user with ID"+u.getId());
 		      return obj;
 		}
@@ -54,13 +56,30 @@ public class UserDao
 	
 	public JSONObject get_access_for_email(User u)
 	{
-		List<Object[]> ulist =(List<Object[]>) sessionFactory.getCurrentSession().createQuery("select u.name,"
+		List<Object[]> ulist =(List<Object[]>) sessionFactory.getCurrentSession().createQuery("select u.name,u.id,"
 				+ "u.access from User as u where u.email= :email").setParameter("email", u.getEmail()).list();
 		Object[] o = ulist.get(0);
 		JSONObject obj = new JSONObject();
 	      obj.put("name",o[0]);
-	      obj.put("access",o[1]);
+	      obj.put("access",o[2]);
+	      obj.put("id", o[1]);
 	      return obj;
+	}
+	public List<JSONObject> get_log_by_id(Long id)
+	{
+		String query = "select l.datetime,l.message from Logs as l where message like \'%" + id + "%\'";
+		List<Object[]> list =(List<Object[]>) sessionFactory.getCurrentSession().createQuery(query).list();
+		List<JSONObject> l = new ArrayList<JSONObject>();
+		for(int i=0;i<list.size();i++)
+		{
+			Object[] o = list.get(i);
+			JSONObject obj = new JSONObject();
+		      obj.put("datetime",o[0]);
+		      obj.put("operation",o[1]);
+		      l.add(obj);
+		}
+		System.out.println(l);
+	      return l;
 	}
 	
 	public void log(String level,String message)

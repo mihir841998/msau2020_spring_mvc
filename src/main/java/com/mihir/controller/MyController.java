@@ -43,34 +43,40 @@ public class MyController
       return ResponseEntity.ok().body(obj);
    }
    
-   @GetMapping("/onbordee")
-   public ResponseEntity<List<Onbordee>> list() {
-      List<Onbordee> onbordees = onbordeeService.list();
+   @GetMapping("/log/{id}")
+   public ResponseEntity<List<JSONObject>> get_log_by_id(@PathVariable("id") long id) {
+	  List<JSONObject> list= userService.get_log_by_id(id);
+      return ResponseEntity.ok().body(list);      
+   }
+   
+   @GetMapping("/onbordees/{id}")
+   public ResponseEntity<List<Onbordee>> list(@PathVariable("id") long id) {
+      List<Onbordee> onbordees = onbordeeService.list(id);
       return ResponseEntity.ok().body(onbordees);
    }
    
-   @DeleteMapping("/onbordee/{id}")
-   public ResponseEntity<?> delete(@PathVariable("id") long id) {
-      onbordeeService.delete(id);
+   @DeleteMapping("/onbordee/{id}/{userid}")
+   public ResponseEntity<?> delete(@PathVariable("id") long id,@PathVariable("userid") long userid) {
+      onbordeeService.delete(id,userid);
       return ResponseEntity.ok().body("Onboarding has been deleted successfully.");
    }
    
-   @PutMapping("/onbordee/{id}")
-   public ResponseEntity<?> update(@PathVariable("id") long id, @RequestBody Onbordee book) {
-      onbordeeService.update(id, book);
+   @PutMapping("/onbordee/{id}/{userid}")
+   public ResponseEntity<?> update(@PathVariable("id") long id,@PathVariable("userid") long userid, @RequestBody Onbordee book) {
+      onbordeeService.update(id,userid, book);
       return ResponseEntity.ok().body("Onboarding has been updated successfully.");
    }
    
-   @GetMapping("/onbordee/{id}")
-   public ResponseEntity<Onbordee> get(@PathVariable("id") long id) {
-      Onbordee o = onbordeeService.get(id);
-      return ResponseEntity.ok().body(o);      
-   }
+//   @GetMapping("/onbordee/{id}")
+//   public ResponseEntity<Onbordee> get(@PathVariable("id") long id) {
+//      Onbordee o = onbordeeService.get(id);
+//      return ResponseEntity.ok().body(o);      
+//   }
    
-   @PostMapping("/onbordee")
-   public ResponseEntity<?> save(@RequestBody Onbordee o) {
+   @PostMapping("/onbordee/{userid}")
+   public ResponseEntity<?> save(@PathVariable("userid") long userid,@RequestBody Onbordee o) {
 	  System.out.println("In MyController" + o);
-      String s = onbordeeService.save(o);
+      String s = onbordeeService.save(o,userid);
       return ResponseEntity.ok().body(s);
    }
    

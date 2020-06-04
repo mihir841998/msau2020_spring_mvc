@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mihir.model.Onbordee;
+import com.mihir.model.User;
 import com.mihir.dao.OnbordeeDao;
 import com.mihir.dao.UserDao;
 
@@ -18,24 +19,24 @@ public class OnbordeeService
 	@Autowired
 	private OnbordeeDao onbordeeDao;
 	@Transactional
-	public List<Onbordee> list() 
+	public List<Onbordee> list(Long id) 
 	{
-		  log("Info", "get all onbordees");
+//		  log("Info", "All onbordees viewed by " + id);
 	      return onbordeeDao.list();	   
 	}
 	
 	@Transactional
-	public void update(long id, Onbordee u) 
+	public void update(long id, long userid, Onbordee u) 
 	{
-		  log("Info", "onbordee with id "+ id +"is updated");
-	      onbordeeDao.update(id, u);
+//		  log("Info", "onbordee with id "+ id +" is updated by id "+userid);
+	      onbordeeDao.update(id,userid, u);
 	}
 	
 	@Transactional
-	public void delete(long id) 
+	public void delete(long id,long userid) 
 	{
-	log("Info", "onbordee with id "+ id +"is deleted");
-	      onbordeeDao.delete(id);
+//	log("Info", "Onbordee with id "+ id +" is deleted by userid " + userid);
+	      onbordeeDao.delete(id,userid);
 	}
 	@Transactional
 	public Onbordee get(long id)
@@ -44,9 +45,9 @@ public class OnbordeeService
 		 return onbordeeDao.get(id);
 	}
 	@Transactional
-   public String save(Onbordee o) 
+   public String save(Onbordee o,long userid) 
 	{
-	log("Info", "new onbordee created and saved with UserId"+ o.getUserid());
+	log("Info", "New Onbordee" + o + " created and saved with UserId "+ o.getUserid()+" by userid "+userid);
       return onbordeeDao.save(o);
    }
 	

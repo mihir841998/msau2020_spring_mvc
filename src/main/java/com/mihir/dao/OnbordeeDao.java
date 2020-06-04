@@ -2,12 +2,14 @@ package com.mihir.dao;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -43,18 +45,71 @@ public class OnbordeeDao
 		return list;
 	}
 	
-	public String delete(long id) 
+	public String delete(long id,long userid) 
    {
       Onbordee u = sessionFactory.getCurrentSession().byId(Onbordee.class).load(id);
       sessionFactory.getCurrentSession().delete(u);	
 //      logger.info("Deleted Onbordee with id"+ id);
+      log("Info", u+" with id "+ id +" is deleted by userid " + userid);
       return "Onbordee Deleted Successfully";
    }
 	
-   public String update(long id, Onbordee o)
+   public String update(long id, long userid, Onbordee o)
    {
 	   Session session = sessionFactory.getCurrentSession();
 	   Onbordee odetails = session.byId(Onbordee.class).load(id);
+	   String s = "UserID "+userid+" updated Onbordee with ID "+ o.getUserid();
+	   List<String> list = new ArrayList<String>();
+	   if(!o.getBgc_status().equals(odetails.getBgc_status()))
+	   {
+		   list.add("changed bgc_status from "+odetails.getBgc_status()+" to "+o.getBgc_status());
+	   }
+	   if(o.getDemandid()!=odetails.getDemandid())
+	   {
+		   list.add("changed demandid from "+odetails.getDemandid()+" to "+o.getDemandid());
+	   }
+	   if(!o.getEmail().equals(odetails.getEmail()))
+	   {
+		   list.add("changed email from "+odetails.getEmail()+" to "+o.getEmail());
+	   }
+	   if(!o.getEta().equals(odetails.getEta()))
+	   {
+		   list.add("changed ETA for arrival from "+odetails.getEta()+" to "+o.getEta());
+	   }
+	   if(o.getHmid()!=odetails.getHmid())
+	   {
+		   list.add("changed Hiring manager ID from "+odetails.getHmid()+" to "+o.getHmid());
+	   }
+	   if(!o.getLocation().equals(odetails.getLocation()))
+	   {
+		   list.add("changed location from "+odetails.getLocation()+" to "+o.getLocation());
+	   }
+	   if(!o.getName().equals(odetails.getName()))
+	   {
+		   list.add("changed Name from "+odetails.getName()+" to "+o.getName());
+	   }
+	   if(!o.getOnboarding_status().equals(odetails.getOnboarding_status()))
+	   {
+		   list.add("changed Onboarding Status from "+odetails.getOnboarding_status()+" to "+o.getOnboarding_status());
+	   }
+	   if(!o.getPhone().equals(odetails.getPhone()))
+	   {
+		   list.add("changed Phone from "+odetails.getPhone()+" to "+o.getPhone());
+	   }
+	   if(!o.getSkill().equals(odetails.getSkill()))
+	   {
+		   list.add("changed Skill from "+odetails.getSkill()+" to "+o.getSkill());
+	   }
+	   if(!o.getStart_date().equals(odetails.getStart_date()))
+	   {
+		   list.add("changed Start Date from "+odetails.getStart_date()+" to "+o.getStart_date());
+	   }
+	   if(o.getUserid()!=odetails.getUserid())
+	   {
+		   list.add("changed UserID from "+odetails.getUserid()+" to "+o.getUserid());
+	   }
+	   s = s +" "+ list;
+	   log("Info",s);
 	   odetails.setBgc_status(o.getBgc_status());
 	   odetails.setDemandid(o.getDemandid());
 	   odetails.setEta(o.getEta());
@@ -169,9 +224,10 @@ public class OnbordeeDao
    
    
    
-   
+   @Transactional
    public void log(String level,String message)
    {
+	   System.out.println("in onbordee log");
 	   Logs l = new Logs();
 	   l.setLevel(level);
 	   l.setMessage(message);
