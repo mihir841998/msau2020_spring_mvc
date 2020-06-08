@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mihir.model.Demand;
+import com.mihir.model.Hiringmanager;
 import com.mihir.model.Onbordee;
 import com.mihir.model.User;
 import com.mihir.dao.OnbordeeDao;
@@ -23,6 +25,20 @@ public class OnbordeeService
 	{
 //		  log("Info", "All onbordees viewed by " + id);
 	      return onbordeeDao.list();	   
+	}
+	
+	@Transactional
+	public List<Demand> demand() 
+	{
+//		  log("Info", "All onbordees viewed by " + id);
+	      return onbordeeDao.demand();	   
+	}
+	
+	@Transactional
+	public List<Hiringmanager> hm() 
+	{
+//		  log("Info", "All onbordees viewed by " + id);
+	      return onbordeeDao.hm();	   
 	}
 	
 	@Transactional

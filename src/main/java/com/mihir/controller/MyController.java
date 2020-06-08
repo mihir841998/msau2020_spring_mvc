@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mihir.model.Demand;
+import com.mihir.model.Hiringmanager;
 import com.mihir.model.Onbordee;
 import com.mihir.model.User;
 import com.mihir.service.OnbordeeService;
@@ -33,6 +35,7 @@ public class MyController
    @PostMapping("/check")
    public ResponseEntity<JSONObject> check_user_credential(@RequestBody User user)
    {
+	   System.out.println("User in check "+ user);
       JSONObject obj = userService.check_user_credential(user);
       return ResponseEntity.ok().body(obj);
    }
@@ -103,6 +106,20 @@ public class MyController
       List<JSONObject> skill = onbordeeService.get_trend_hmid();
       return ResponseEntity.ok().body(skill);
    }
+   
+   @GetMapping("/demand")
+   public ResponseEntity<List<Demand>> demand() {
+      List<Demand> list = onbordeeService.demand();
+      return ResponseEntity.ok().body(list);
+   }
+   
+   @GetMapping("/hm")
+   public ResponseEntity<List<Hiringmanager>> hm() {
+      List<Hiringmanager> list = onbordeeService.hm();
+      return ResponseEntity.ok().body(list);
+   }
+   
+   
    
    
    

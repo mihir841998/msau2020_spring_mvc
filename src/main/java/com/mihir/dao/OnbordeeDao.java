@@ -18,6 +18,8 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.mihir.model.Demand;
+import com.mihir.model.Hiringmanager;
 import com.mihir.model.Logs;
 import com.mihir.model.Onbordee;
 import com.mihir.model.User;
@@ -220,6 +222,24 @@ public class OnbordeeDao
 	   System.out.println(list);
 	   return list;   
    }
+   
+   public List<Demand> demand()
+	{
+//		PropertyConfigurator.configure("src/main/resources/log4j.properties");
+//		log.info("get onboardees");
+		List<Demand> list = sessionFactory.getCurrentSession().createQuery("from Demand").list();
+//		logger.info("Get Onboordees");
+		return list;
+	}
+   
+   public List<Hiringmanager> hm()
+	{
+//		PropertyConfigurator.configure("src/main/resources/log4j.properties");
+//		log.info("get onboardees");
+		List<Hiringmanager> list = sessionFactory.getCurrentSession().createQuery("from Hiringmanager").list();
+//		logger.info("Get Onboordees");
+		return list;
+	}
    
    
    

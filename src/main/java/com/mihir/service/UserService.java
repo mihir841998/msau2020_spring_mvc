@@ -21,6 +21,7 @@ public class UserService
 		@Transactional
 		   public JSONObject check_user_credential(User u)
 		   {
+			System.out.println("in user service check_user_credential");
 			   log("info","User with Id "+ u.getId()+" logged in to the system");
 			   return userDao.check_user_credential(u);
 		   }

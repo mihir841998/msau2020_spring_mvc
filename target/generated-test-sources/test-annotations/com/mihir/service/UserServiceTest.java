@@ -47,34 +47,34 @@ public class UserServiceTest extends TestCase
 			
 		
 	}
-	  @Test
-	public void get_access_by_email() 
-	  {
-		  JSONObject obj = new JSONObject();
-		  obj.put("name","mihir");
-		  obj.put("access", "2");
-		  User u = new User();
+	  
+	 @Test
+	 public void get_access_by_email()
+	 {
+		 JSONObject obj = new JSONObject();
+		 obj.put("name","mihir");
+		 User u = new User();
 		  u.setEmail("mihir@gmail.com");
 		  when(userDao.get_access_for_email(u)).thenReturn(obj);
-		  JSONObject expected = new JSONObject();
-		  expected.put("name","mihir");
-		  expected.put("access", "2");
 		  JSONObject actual = userService.get_access_for_email(u);
-		  assertEquals(expected, actual);
-		  
-	}
+		  assertEquals(obj, actual);
+		 
+	 }
 	  
-	  @Test
-	  public void get_log_by_id_test()
-	  {
-		  JSONObject obj = new JSONObject();
-		  obj.put("datetime", "5 August 2020");
-		  obj.put("message", "deleteg user");
-		  List<JSONObject> list = new ArrayList<JSONObject>();
-		  list.add(obj);
-		  when(userDao.get_log_by_id(1L)).thenReturn(list);
-		  List<JSONObject> list_actual = userService.get_log_by_id(1L);
-		  assertEquals(list, list_actual);
-	  }
+	
+
+	  
+//	  @Test
+//	  public void get_log_by_id_test()
+//	  {
+//		  JSONObject obj = new JSONObject();
+//		  obj.put("datetime", "5 August 2020");
+//		  obj.put("message", "deleteg user");
+//		  List<JSONObject> list = new ArrayList<JSONObject>();
+//		  list.add(obj);
+//		  when(userDao.get_log_by_id(1L)).thenReturn(list);
+//		  List<JSONObject> list_actual = userService.get_log_by_id(1L);
+//		  assertEquals(list, list_actual);
+//	  }
 
 }
