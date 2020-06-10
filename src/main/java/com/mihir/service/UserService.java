@@ -29,7 +29,7 @@ public class UserService
 		@Transactional
 		   public JSONObject get_access_for_email(User u)
 		   {
-			   log("info","Access of  emailId"+ u.getEmail() + "fetched from database");
+//			   log("info","Access of  emailId"+ u.getEmail() + "fetched from database");
 			   return userDao.get_access_for_email(u);
 		   }
 		

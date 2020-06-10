@@ -63,7 +63,7 @@ public class OnbordeeService
 	@Transactional
    public String save(Onbordee o,long userid) 
 	{
-	log("Info", "New Onbordee" + o + " created and saved with UserId "+ o.getUserid()+" by userid "+userid);
+	log("Info", "New " + o + " created and saved with UserId "+ o.getUserid()+" by userid "+userid);
       return onbordeeDao.save(o);
    }
 	

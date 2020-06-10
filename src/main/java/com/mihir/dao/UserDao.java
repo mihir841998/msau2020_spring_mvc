@@ -63,6 +63,7 @@ public class UserDao
 	      obj.put("name",o[0]);
 	      obj.put("access",o[2]);
 	      obj.put("id", o[1]);
+	      log("info","User with Id "+ o[1]+" logged in to the system");
 	      return obj;
 	}
 	public List<JSONObject> get_log_by_id(Long id)
