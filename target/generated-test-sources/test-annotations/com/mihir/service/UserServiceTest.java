@@ -1,5 +1,7 @@
 package com.mihir.service;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.mihir.dao.OnbordeeDao;
 import com.mihir.dao.UserDao;
+import com.mihir.model.Onbordee;
 import com.mihir.model.User;
 
 import junit.framework.TestCase;
@@ -60,21 +63,57 @@ public class UserServiceTest extends TestCase
 		  assertEquals(obj, actual);
 		 
 	 }
+	 
+	 @Test
+		public void testList() {
+			List<JSONObject> list = new ArrayList<JSONObject>();
+			JSONObject json = new JSONObject();
+			json.put("name", "mihir");
+			list.add(json);
+			when(userDao.list()).thenReturn(list);
+			List<JSONObject> actual = userService.list();		
+			assertEquals(list,actual);
+		}
+	 
+	 @Test
+		public void testUpdate() 
+		{
+		 User u = new User();
+			when(userDao.update(1, 1,u)).thenReturn("updated");
+			userService.update(1, 1, u);
+			verify(userDao,times(1)).update(1,1,u);		
+		}
+	 
+	 @Test
+	public void testDelete() {
+	 User u = new User();
+	when(userDao.delete(1, 1)).thenReturn("deleted");
+	userService.delete(1, 1);
+	verify(userDao,times(1)).delete(1,1);
+	}
+	 
+	 @Test
+		public void testSave() 
+		{
+		 User u = new User();
+		 u.setId(1L);
+		when(userDao.save(u)).thenReturn("User saved with USER ID 1");
+		String s = userService.save(u,1L);
+		assertEquals("User saved with USER ID 1", s);
+		}
+	 
+	 @Test
+		public void testGet() {
+		 User u = new User();
+		 u.setId(1L);
+		when(userDao.get(1)).thenReturn(u);
+		User a = userService.get(1);
+			assertEquals(u, a);
+		}
+		
 	  
 	
 
 	  
-//	  @Test
-//	  public void get_log_by_id_test()
-//	  {
-//		  JSONObject obj = new JSONObject();
-//		  obj.put("datetime", "5 August 2020");
-//		  obj.put("message", "deleteg user");
-//		  List<JSONObject> list = new ArrayList<JSONObject>();
-//		  list.add(obj);
-//		  when(userDao.get_log_by_id(1L)).thenReturn(list);
-//		  List<JSONObject> list_actual = userService.get_log_by_id(1L);
-//		  assertEquals(list, list_actual);
-//	  }
 
 }

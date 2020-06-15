@@ -19,6 +19,7 @@ import com.mihir.model.Demand;
 import com.mihir.model.Hiringmanager;
 import com.mihir.model.Onbordee;
 import com.mihir.model.User;
+import com.mihir.service.HmService;
 import com.mihir.service.OnbordeeService;
 import com.mihir.service.UserService;
 
@@ -31,6 +32,8 @@ public class MyController
 	private UserService userService;
 	@Autowired
 	private OnbordeeService onbordeeService;
+	@Autowired
+	private HmService hmService;
 	
    @PostMapping("/check")
    public ResponseEntity<JSONObject> check_user_credential(@RequestBody User user)
@@ -118,6 +121,61 @@ public class MyController
       List<Hiringmanager> list = onbordeeService.hm();
       return ResponseEntity.ok().body(list);
    }
+   
+   @GetMapping("/getuser")
+   public ResponseEntity<List<JSONObject>> list() {
+      List<JSONObject> json= userService.list();
+      return ResponseEntity.ok().body(json);
+   }
+   
+   @GetMapping("/gethm")
+   public ResponseEntity<List<Hiringmanager>> listhm() {
+      List<Hiringmanager> json= hmService.list();
+      return ResponseEntity.ok().body(json);
+   }
+   
+   @DeleteMapping("/userdelete/{id}/{userid}")
+   public ResponseEntity<?> delete_user(@PathVariable("id") long id,@PathVariable("userid") long userid) {
+      userService.delete(id,userid);
+      return ResponseEntity.ok().body("User has been deleted successfully.");
+   }
+   
+   @DeleteMapping("/hmdelete/{id}/{userid}")
+   public ResponseEntity<?> delete_hm(@PathVariable("id") long id,@PathVariable("userid") long userid) {
+      hmService.delete(id,userid);
+      return ResponseEntity.ok().body("Hiring Manager has been deleted successfully.");
+   }
+   
+   @PostMapping("/usersave/{userid}")
+   public ResponseEntity<?> save_user(@PathVariable("userid") long userid,@RequestBody User o) {
+	  System.out.println("In MyController" + o);
+      String s = userService.save(o,userid);
+      return ResponseEntity.ok().body(s);
+   }
+   
+   @PostMapping("/hmsave/{userid}")
+   public ResponseEntity<?> save_hm(@PathVariable("userid") long userid,@RequestBody Hiringmanager o) {
+	  String s = hmService.save(o,userid);
+      return ResponseEntity.ok().body(s);
+   }
+   
+   @PutMapping("/userupdate/{id}/{userid}")
+   public ResponseEntity<?> update_user(@PathVariable("id") long id,@PathVariable("userid") long userid, @RequestBody User book) {
+      userService.update(id,userid, book);
+      return ResponseEntity.ok().body("User has been updated successfully.");
+   }
+   
+   @PutMapping("/hmupdate/{id}/{userid}")
+   public ResponseEntity<?> update_hm(@PathVariable("id") long id,@PathVariable("userid") long userid, @RequestBody Hiringmanager book) {
+      hmService.update(id,userid, book);
+      return ResponseEntity.ok().body("Hiring Manager has been updated successfully.");
+   }
+   
+   @GetMapping("/userget/{id}")
+ public ResponseEntity<User> get(@PathVariable("id") long id) {
+    User o = userService.get(id);
+    return ResponseEntity.ok().body(o);      
+ }
    
    
    

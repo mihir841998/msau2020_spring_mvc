@@ -57,7 +57,7 @@ public class OnbordeeService
 	@Transactional
 	public Onbordee get(long id)
 	{
-		log("Info", "get onbordee with id "+ id);
+//		log("Info", "get onbordee with id "+ id);
 		 return onbordeeDao.get(id);
 	}
 	@Transactional

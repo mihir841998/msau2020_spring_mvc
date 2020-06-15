@@ -67,7 +67,7 @@ public class OnbordeeDaoTest
 		when(session.createQuery("from Onbordee")).thenReturn(query);
 		when(query.list()).thenReturn(onbordee);
 		
-		List<Onbordee> l = sessionFactory.getCurrentSession().createQuery("from Onbordee").list();
+		List<Onbordee> l = onbordeeDao.list();
 		assertEquals(onbordee, l);		
 	}
 

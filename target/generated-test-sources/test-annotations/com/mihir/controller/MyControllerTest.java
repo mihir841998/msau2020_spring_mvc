@@ -27,6 +27,7 @@ import com.mihir.model.Demand;
 import com.mihir.model.Hiringmanager;
 import com.mihir.model.Onbordee;
 import com.mihir.model.User;
+import com.mihir.service.HmService;
 import com.mihir.service.OnbordeeService;
 import com.mihir.service.UserService;
 
@@ -54,6 +55,9 @@ public class MyControllerTest {
 	
 	@Mock
     private UserService userService;
+	
+	@Mock
+    private HmService hmService;
 	
 	 @Before
 	  public void setUp() {
@@ -215,5 +219,127 @@ public class MyControllerTest {
 		ResponseEntity<List<Hiringmanager>> actual = mycontroller.hm();
 		assertEquals(expected, actual);
 	}
+	
+	@Test
+	public void testgetuser() {
+		List<JSONObject> list = new ArrayList<JSONObject>();
+		JSONObject json = new JSONObject();
+		json.put("id", 1);
+		json.put("name", "mihir");
+		json.put("email", "mihir@gmail.com");
+		json.put("access","1");
+		list.add(json);
+		when(userService.list()).thenReturn(list);
+		ResponseEntity<List<JSONObject>> expected = new ResponseEntity<List<JSONObject>>(list,HttpStatus.OK);
+		ResponseEntity<List<JSONObject>> actual = mycontroller.list();
+		assertEquals(expected, actual);
+		
+	}
+	
+	@Test
+	public void testgethm() {
+		List<Hiringmanager> list = new ArrayList<Hiringmanager>();
+		Hiringmanager hm = new Hiringmanager();
+		list.add(hm);
+		when(hmService.list()).thenReturn(list);
+		ResponseEntity<List<Hiringmanager>> expected = new ResponseEntity<List<Hiringmanager>>(list,HttpStatus.OK);
+		ResponseEntity<List<Hiringmanager>> actual = mycontroller.listhm();
+		assertEquals(expected, actual);		
+	}
+	
+	@Test
+	public void testDeleteUser() {
+		doNothing().when(userService).delete(1, 1);
+		ResponseEntity<String> expected = new ResponseEntity<String>("User has been deleted successfully.",HttpStatus.OK);
+		ResponseEntity<String> actual=(ResponseEntity<String>) mycontroller.delete_user(1,1);
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testDeleteHm() {
+		doNothing().when(hmService).delete(1, 1);
+		ResponseEntity<String> expected = new ResponseEntity<String>("Hiring Manager has been deleted successfully.",HttpStatus.OK);
+		ResponseEntity<String> actual=(ResponseEntity<String>) mycontroller.delete_hm(1,1);
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testSaveUser() {
+		User u = new User();
+		when(userService.save(u,1)).thenReturn("Saved Successfully");
+		ResponseEntity<String> expected = new ResponseEntity<String>("Saved Successfully",HttpStatus.OK);
+		ResponseEntity<String> actual=(ResponseEntity<String>) mycontroller.save_user(1, u);
+		assertEquals(expected, actual);
+	}
+	
+	
+	@Test
+	public void testSaveHm() {
+		Hiringmanager hm = new Hiringmanager();
+		when(hmService.save(hm,1)).thenReturn("Saved Successfully");
+		ResponseEntity<String> expected = new ResponseEntity<String>("Saved Successfully",HttpStatus.OK);
+		ResponseEntity<String> actual=(ResponseEntity<String>) mycontroller.save_hm(1, hm);
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testUpdateUser() {
+		User u = new User();
+		doNothing().when(userService).update(1, 1, u);
+		ResponseEntity<String> expected = new ResponseEntity<String>("User has been updated successfully.",HttpStatus.OK);
+		ResponseEntity<String> actual=(ResponseEntity<String>) mycontroller.update_user(1,1, u);
+		assertEquals(expected, actual);
+		
+	}
+	
+	@Test
+	public void testUpdateHm() {
+		Hiringmanager hm = new Hiringmanager();
+		doNothing().when(hmService).update(1, 1, hm);
+		ResponseEntity<String> expected = new ResponseEntity<String>("Hiring Manager has been updated successfully.",HttpStatus.OK);
+		ResponseEntity<String> actual=(ResponseEntity<String>) mycontroller.update_hm(1,1, hm);
+		assertEquals(expected, actual);
+		
+	}
+	
+	@Test
+	public void testgetuser_by_id() {
+		User u = new User();
+		when(userService.get(1)).thenReturn(u);
+		ResponseEntity<User> expected = new ResponseEntity<User>(u,HttpStatus.OK);
+		ResponseEntity<User> actual = mycontroller.get(1);
+		assertEquals(expected, actual);		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

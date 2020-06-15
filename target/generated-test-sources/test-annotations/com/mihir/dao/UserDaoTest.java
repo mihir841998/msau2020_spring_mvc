@@ -24,6 +24,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.boot.jackson.JsonObjectDeserializer;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -96,6 +98,94 @@ public class UserDaoTest
 	      assertEquals(l, actual);	
 		
 	}
+	
+	@Test
+	public void testList() 
+	{
+		List<JSONObject> list = new ArrayList<JSONObject>();
+		JSONObject json = new JSONObject();
+		json.put("id", 1);
+		json.put("name", "mihir");
+		json.put("email", "mihir@gmail.com");
+		json.put("access","1");
+		list.add(json);
+		
+		Object[] objarr = {1,"mihir","1","mihir@gmail.com"};
+		List<Object[]> list1 =new ArrayList<Object[]>();
+		list1.add(objarr);
+		
+		
+		when(sessionFactory.getCurrentSession()).thenReturn(session);
+		when(session.createQuery("select id,name,access,email from User",Object[].class)).thenReturn(query);
+		when(query.getResultList()).thenReturn(list1);
+		
+		List<JSONObject> actual = userDao.list();
+		
+		assertEquals(list,actual);		
+	}
+	
+	
+	@Test
+	public void testSave() 
+	{
+		User u = new User();
+		u.setId(1L);
+		when(sessionFactory.getCurrentSession()).thenReturn(session);
+		when(session.save(u)).thenReturn(1L);
+		
+		String s = userDao.save(u);
+		assertEquals("User saved with USER ID " + u.getId(), s);		
+	}
+	
+	@Test
+	public void testGet() 
+	{
+		User u = new User();
+		u.setId(1L);
+		when(sessionFactory.getCurrentSession()).thenReturn(session);
+		when(session.get(User.class, 1L)).thenReturn(u);
+		
+		User actual = userDao.get(1L);
+		assertEquals(u, actual);
+		
+	}
+	
+	@Test
+	public void testUpdate() 
+	{
+		User u = new User();
+		u.setId(1L);
+		u.setName("mihir");
+		u.setEmail("M@M");
+		u.setPassword("m");
+		u.setAccess("1");
+		when(sessionFactory.getCurrentSession()).thenReturn(session);
+		when(session.byId(User.class)).thenReturn(identifierObj);
+		when(identifierObj.load(1L)).thenReturn(u);
+		User u1 = new User();
+		u1.setId(1L);
+		u1.setName("mihirr");
+		u1.setEmail("M@M");
+		u1.setPassword("m");
+		u1.setAccess("1");
+		String s =userDao.update(1L,1, u1);
+		assertEquals("User Updated Successfully", s);
+		
+	}
+	
+	@Test
+	public void testDelete() 
+	{
+		User u = new User();
+		u.setId(1L);
+		when(sessionFactory.getCurrentSession()).thenReturn(session);
+		when(session.byId(User.class)).thenReturn(identifierObj);
+		when(identifierObj.load(1)).thenReturn(u);
+		String s = userDao.delete(1,1);
+		assertEquals("User Deleted Successfully", s);
+				
+	}
+	
 
 	
 

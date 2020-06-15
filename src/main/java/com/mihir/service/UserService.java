@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mihir.model.Onbordee;
 import com.mihir.model.User;
 import com.mihir.dao.UserDao;
 
@@ -16,6 +17,13 @@ public class UserService
 {
 		@Autowired
 	   private UserDao userDao;
+		
+		@Transactional
+		public List<JSONObject> list() 
+		{
+//			  log("Info", "All users viewed by " + id);
+		      return userDao.list();	   
+		}
 		
 		
 		@Transactional
@@ -41,6 +49,32 @@ public class UserService
 		   @Transactional
 		   public void log(String level,String message) {
 		      userDao.log(level,message);
+		   }
+		   
+		   @Transactional
+			public void update(long id, long userid, User u) 
+			{
+//				  log("Info", "onbordee with id "+ id +" is updated by id "+userid);
+			      userDao.update(id,userid, u);
+			}
+		   
+		   @Transactional
+			public void delete(long id,long userid) 
+			{
+//			log("Info", "Onbordee with id "+ id +" is deleted by userid " + userid);
+			      userDao.delete(id,userid);
+			}
+		   @Transactional
+			public User get(long id)
+			{
+//				log("Info", "get onbordee with id "+ id);
+				 return userDao.get(id);
+			}
+		   @Transactional
+		   public String save(User o,long userid) 
+			{
+			log("Info", "New " + o + " created and saved with UserId "+ o.getId()+" by userid "+userid);
+		      return userDao.save(o);
 		   }
 		   
 		   

@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.mihir.model.Logs;
+import com.mihir.model.Onbordee;
 import com.mihir.model.User;
 
 @Repository
@@ -88,11 +90,89 @@ public class UserDao
 		   Logs l = new Logs();
 		   l.setLevel(level);
 		   l.setMessage(message);
-		   l.setClassname("OnbordeeDao");
+		   l.setClassname("UserDao");
 		   l.setDatetime(LocalDateTime.now());
 		   
-		   sessionFactory.getCurrentSession().save(l);  
-		   
+		   sessionFactory.getCurrentSession().save(l);		   
+	   }
+	
+	public List<JSONObject> list()
+	{
+		 List<Object[]> results =(List<Object[]>) sessionFactory.getCurrentSession()
+				   .createQuery("select id,name,access,email from User",Object[].class).getResultList();
+		   List<JSONObject> list = new LinkedList<JSONObject>();
+		   for (int i = 0; i < results.size(); i++) 
+			  {
+				  Object[] o = results.get(i); // for first element!
+//				  String skill = (String) o[0]; 			  // choose the correct type!
+//				  System.out.println(o[0]);
+//				  System.out.println(o[1]);
+//				  String count = (String) o[1];
+				  JSONObject obj = new JSONObject();
+				  obj.put("id", o[0]);
+				  obj.put("name", o[1]);
+				  obj.put("email", o[3]);
+				  obj.put("access", o[2]);				  
+				  list.add(obj);			  
+			  }
+		   System.out.println(list);
+		   return list;
+	}
+	
+	public String save(User u)
+   {
+	   sessionFactory.getCurrentSession().save(u);
+	   return "User saved with USER ID " + u.getId();	   
+   }
+	
+	public User get(long id) 
+	   {
+		      return sessionFactory.getCurrentSession().get(User.class, id);
+	   }
+	
+	public String delete(long id,long userid) 
+	   {
+	      User u = sessionFactory.getCurrentSession().byId(User.class).load(id);
+	      sessionFactory.getCurrentSession().delete(u);	
+//	      logger.info("Deleted Onbordee with id"+ id);
+	      log("Info", u+" with id "+ id +" is deleted by userid " + userid);
+	      return "User Deleted Successfully";
+	   }
+	
+	public String update(long id, long userid, User u)
+	   {
+		   Session session = sessionFactory.getCurrentSession();
+		   User udetails = session.byId(User.class).load(id);
+		   u.setPassword(udetails.getPassword());
+		   String s = "UserID "+userid+" updated User with ID "+ u.getId();
+		   List<String> list = new ArrayList<String>();
+		   System.out.println("in userdaio update "+ u.getId()+"  "+ udetails.getId());
+		   if(!u.getId().equals(udetails.getId()))
+		   {
+			   list.add("changed UserID from " + udetails.getId() + " to " + u.getId());
+		   }
+		   if(!u.getEmail().equals(udetails.getEmail()))
+		   {
+			   list.add("changed Email from " + udetails.getEmail() + " to " + u.getEmail());
+		   }
+		   if(!u.getAccess().equals(udetails.getAccess()))
+		   {
+			   list.add("changed Access from " + udetails.getAccess() + " to " + u.getAccess());
+		   }
+		   if(!u.getName().equals(udetails.getName()))
+		   {
+			   list.add("changed Name from " + udetails.getName() + " to " + u.getName());
+		   }
+		   s = s +" "+ list;
+		   log("Info",s);
+		   udetails.setAccess(u.getAccess());
+		   udetails.setEmail(u.getEmail());
+		   udetails.setId(u.getId());
+		   udetails.setName(u.getName());
+		   udetails.setPassword(u.getPassword());
+		   session.flush();
+//		   logger.info("Onbordee Updated with id"+id);
+		   return "User Updated Successfully";
 	   }
 	
 
